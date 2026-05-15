@@ -1,5 +1,12 @@
 $ErrorActionPreference = "SilentlyContinue"
 
+# Detect Administrators group name automatically
+try {
+    $adminGroup = ([Security.Principal.SecurityIdentifier]"S-1-5-32-544").Translate([Security.Principal.NTAccount]).Value.Split("\")[-1]
+} catch {
+    $adminGroup = "Administrators"
+}
+
 function Show-Menu {
     Clear-Host
     Write-Host "======================================================" -ForegroundColor Cyan
@@ -55,10 +62,17 @@ function Main-Menu-RU {
 # --- Actions ---
 
 function Apply-Bypass {
+    # Unlock "I don't have internet" button
     reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v BypassNRO /t REG_DWORD /d 1 /f
+    
+    # Skip Privacy screens
     reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v PrivacyConsentStatus /t REG_DWORD /d 1 /f
     reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v ProtectYourPC /t REG_DWORD /d 3 /f
     reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v DisableVoice /t REG_DWORD /d 1 /f
+    
+    # Force setup status (experimental)
+    reg add "HKLM\SYSTEM\Setup" /v OOBEInProgress /t REG_DWORD /d 0 /f
+    reg add "HKLM\SYSTEM\Setup" /v SetupType /t REG_DWORD /d 0 /f
 }
 
 function Disable-Prompts {
@@ -77,20 +91,10 @@ function Create-User {
     
     Write-Host "Adding to Administrators group..." -ForegroundColor Gray
     $done = $false
-    
-    # Try common names
     $groups = @("Администраторы", "Administrators")
     foreach ($g in $groups) {
         net localgroup "$g" "$u" /add >$null 2>&1
         if ($LASTEXITCODE -eq 0) { $done = $true; break }
-    }
-    
-    # Try SID method as last resort
-    if (-not $done) {
-        try {
-            $sidGroup = ([Security.Principal.SecurityIdentifier]"S-1-5-32-544").Translate([Security.Principal.NTAccount]).Value.Split("\")[-1]
-            net localgroup "$sidGroup" "$u" /add >$null 2>&1
-        } catch {}
     }
 }
 
