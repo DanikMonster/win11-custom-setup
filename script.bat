@@ -4,7 +4,7 @@
 :: ======================================================
 :: GitHub: https://github.com/DanikMonster/win11-custom-setup
 :: Запуск одной командой (через Shift+F10):
-:: curl -L https://raw.githubusercontent.com/DanikMonster/win11-custom-setup/main/script.bat -o s.bat && s.bat
+:: curl -L https://goo.su/EJYC0U -o s.bat && s.bat
 :: ======================================================
 
 setlocal enabledelayedexpansion
