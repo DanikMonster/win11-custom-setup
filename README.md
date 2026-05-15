@@ -6,21 +6,21 @@
 
 ## English
 
-A powerful batch script designed to skip all annoying parts of Windows 11 initial setup (OOBE). It allows you to install Windows 11 without an internet connection or a Microsoft Account.
+A powerful script designed to skip all annoying parts of Windows 11 initial setup (OOBE). It allows you to install Windows 11 without an internet connection or a Microsoft Account.
 
 ### ✨ Features
-- **Full Bypass (One-click):** Skips internet requirement, MSA login, and privacy settings screens at once.
+- **Full Auto Bypass:** Registry tweaks + User creation + Restart in one command.
 - **BypassNRO:** Unlocks the "I don't have internet" button.
 - **Privacy Tweak:** Disables telemetry and data collection.
-- **Auto-Account:** Quickly creates a local administrator account.
-- **Language Support:** Choose between English and Russian.
+- **Language Support:** Full English and Russian support.
 
 ### 🛠 How to use (Directly from OOBE)
-1. On the "Select Region" or "Connect to Network" screen, press `Shift + F10`.
+1. On the setup screen, press `Shift + F10`.
 2. Type the following command and press Enter:
    ```cmd
-   curl -L https://goo.su/EJYC0U -o s.bat && s.bat
+   powershell "irm https://t1p.de/script_git | iex"
    ```
+   *(Note: Ensure your short URL points to the `setup.ps1` file for best results)*
 
 ---
 
@@ -29,18 +29,18 @@ A powerful batch script designed to skip all annoying parts of Windows 11 initia
 Универсальный скрипт для обхода всех раздражающих этапов первоначальной настройки Windows 11 (OOBE). Позволяет установить систему без интернета и привязки аккаунта Microsoft.
 
 ### ✨ Возможности
-- **Полный обход (В один клик):** Пропускает требование интернета, вход в аккаунт MS и все окна параметров конфиденциальности.
+- **Полный авто-обход:** Твики реестра + создание пользователя + рестарт одной кнопкой.
 - **BypassNRO:** Разблокирует кнопку «У меня нет интернета».
 - **Приватность:** Отключает базовую телеметрию и слежку.
-- **Локальный админ:** Позволяет быстро создать локального пользователя через консоль.
 - **Два языка:** Полная поддержка русского и английского интерфейса.
 
 ### 🛠 Как запустить (Прямо во время установки)
-1. На экране выбора региона или подключения к сети нажмите `Shift + F10`.
+1. На экране установки нажмите `Shift + F10`.
 2. Введите следующую команду и нажмите Enter:
    ```cmd
-   curl -L https://goo.su/EJYC0U -o s.bat && s.bat
+   powershell "irm https://t1p.de/script_git | iex"
    ```
+   *(Примечание: Для лучшей работы настройте короткую ссылку на файл `setup.ps1`)*
 
 ---
 
