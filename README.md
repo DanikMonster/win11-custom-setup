@@ -19,9 +19,8 @@ A powerful batch script designed to skip all annoying parts of Windows 11 initia
 1. On the "Select Region" or "Connect to Network" screen, press `Shift + F10`.
 2. Type the following command and press Enter:
    ```cmd
-   curl -L YOUR_SHORT_URL -o s.bat && s.bat
+   curl -L https://raw.githubusercontent.com/DanikMonster/win11-custom-setup/main/script.bat -o s.bat && s.bat
    ```
-   *(Replace `YOUR_SHORT_URL` with your bit.ly/tinyurl link to the raw script)*
 
 ---
 
@@ -40,9 +39,8 @@ A powerful batch script designed to skip all annoying parts of Windows 11 initia
 1. На экране выбора региона или подключения к сети нажмите `Shift + F10`.
 2. Введите следующую команду и нажмите Enter:
    ```cmd
-   curl -L ВАША_КОРОТКАЯ_ССЫЛКА -o s.bat && s.bat
+   curl -L https://raw.githubusercontent.com/DanikMonster/win11-custom-setup/main/script.bat -o s.bat && s.bat
    ```
-   *(Замените `ВАША_КОРОТКАЯ_ССЫЛКА` на вашу ссылку bit.ly/tinyurl на raw-файл скрипта)*
 
 ---
 

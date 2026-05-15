@@ -1,4 +1,12 @@
 @echo off
+:: ======================================================
+:: WINDOWS 11 CUSTOM SETUP TOOL
+:: ======================================================
+:: GitHub: https://github.com/DanikMonster/win11-custom-setup
+:: Запуск одной командой (через Shift+F10):
+:: curl -L https://raw.githubusercontent.com/DanikMonster/win11-custom-setup/main/script.bat -o s.bat && s.bat
+:: ======================================================
+
 setlocal enabledelayedexpansion
 title Windows 11 Custom Setup Tool
 color 0b
