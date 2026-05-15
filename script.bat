@@ -3,7 +3,7 @@
 chcp 65001 >nul
 
 :: ======================================================
-:: WINDOWS 11 CUSTOM SETUP TOOL
+:: WINDOWS 11 CUSTOM SETUP TOOL - VER 2.0
 :: ======================================================
 :: GitHub: https://github.com/DanikMonster/win11-custom-setup
 :: curl -L https://goo.su/EJYC0U -o s.bat && s.bat
@@ -12,7 +12,7 @@ chcp 65001 >nul
 :lang_select
 cls
 echo ======================================================
-echo   Select Language / Выберите язык
+echo   Select Language / Выберите язык (VER 2.0)
 echo ======================================================
 echo.
 echo   [1] English
