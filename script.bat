@@ -1,4 +1,7 @@
 @echo off
+:: Change code page to UTF-8 to support Cyrillic characters
+chcp 65001 >nul
+
 :: ======================================================
 :: WINDOWS 11 CUSTOM SETUP TOOL
 :: ======================================================
