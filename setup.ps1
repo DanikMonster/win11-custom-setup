@@ -1,5 +1,12 @@
 $ErrorActionPreference = "SilentlyContinue"
 
+# Detect Administrators group name automatically (for RU/EN/etc support)
+try {
+    $adminGroup = ([Security.Principal.SecurityIdentifier]"S-1-5-32-544").Translate([Security.Principal.NTAccount]).Value.Split("\")[-1]
+} catch {
+    $adminGroup = "Administrators"
+}
+
 function Show-Menu {
     Clear-Host
     Write-Host "======================================================" -ForegroundColor Cyan
@@ -45,7 +52,7 @@ function Main-Menu-RU {
     Write-Host "  [2] Отключить окно 'Завершение настройки устройства'"
     Write-Host "  [3] Отключить базовую телеметрию и слежку"
     Write-Host "  [4] Создать локального администратора"
-    Write-Host "  [5] Перезагрузить компьютер"
+    Write-Host "  [5] Перезагрузить компьютер" -ForegroundColor White
     Write-Host "  [6] Выход"
     Write-Host ""
     $choice = Read-Host "Выберите пункт (0-6)"
@@ -73,7 +80,7 @@ function Disable-Telemetry {
 function Create-User {
     param($u, $p)
     net user "$u" "$p" /add
-    net localgroup administrators "$u" /add
+    net localgroup "$adminGroup" "$u" /add
 }
 
 # --- Execution Logic ---
