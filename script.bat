@@ -27,7 +27,7 @@ set /p lang_choice="> "
 
 if "%lang_choice%"=="1" (
     set "m_title=WINDOWS 11 CUSTOM SETUP TOOL"
-    set "m_opt0=[0] FULL BYPASS (Skip everything at once)"
+    set "m_opt0=[0] FULL AUTO BYPASS (Registry + Create User + Restart)"
     set "m_opt1=[1] Bypass Internet/MSA (BypassNRO)"
     set "m_opt2=[2] Disable 'Finish setting up' prompts"
     set "m_opt3=[3] Disable Telemetry and Tracking"
@@ -38,13 +38,13 @@ if "%lang_choice%"=="1" (
     set "m_working=WORKING..."
     set "m_done=Done! Press any key to return to menu."
     set "m_restart_msg=The computer will restart in 5 seconds..."
-    set "m_user_name=Enter username: "
+    set "m_user_name=Enter NEW username: "
     set "m_user_pass=Enter password (leave blank for none): "
     set "m_user_done=User created and added to Administrators."
-    set "m_super_info=1. Bypassing Internet... 2. Skipping Privacy... 3. Disabling SCOOBE... 4. Disabling Telemetry..."
+    set "m_super_info=Applying registry tweaks and creating user..."
 ) else (
     set "m_title=WINDOWS 11 CUSTOM SETUP TOOL"
-    set "m_opt0=[0] ПОЛНЫЙ ОБХОД (Пропустить всё и сразу)"
+    set "m_opt0=[0] ПОЛНЫЙ АВТО-ОБХОД (Реестр + Создание Юзера + Рестарт)"
     set "m_opt1=[1] Обход интернета и аккаунта Microsoft (BypassNRO)"
     set "m_opt2=[2] Отключить окно 'Завершение настройки устройства'"
     set "m_opt3=[3] Отключить базовую телеметрию и слежку"
@@ -55,10 +55,10 @@ if "%lang_choice%"=="1" (
     set "m_working=ВЫПОЛНЯЕТСЯ..."
     set "m_done=Готово! Нажмите любую клавишу для возврата в меню."
     set "m_restart_msg=Компьютер будет перезагружен через 5 секунд..."
-    set "m_user_name=Введите имя пользователя: "
+    set "m_user_name=Введите имя НОВОГО пользователя: "
     set "m_user_pass=Введите пароль (или оставьте пустым): "
     set "m_user_done=Пользователь создан и добавлен в группу Администраторы."
-    set "m_super_info=1. Обход интернета... 2. Пропуск приватности... 3. Отключение SCOOBE... 4. Отключение телеметрии..."
+    set "m_super_info=Применяем твики реестра и создаем пользователя..."
 )
 
 :menu
@@ -93,18 +93,28 @@ cls
 echo [ !m_working! ]
 echo.
 echo !m_super_info!
+echo.
+set /p suname="!m_user_name!"
+set /p supass="!m_user_pass!"
+
+:: Create User
+net user "%suname%" "%supass%" /add >nul 2>&1
+net localgroup administrators "%suname%" /add >nul 2>&1
+
+:: Registry Tweaks
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v BypassNRO /t REG_DWORD /d 1 /f >nul
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v PrivacyConsentStatus /t REG_DWORD /d 1 /f >nul
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v ProtectYourPC /t REG_DWORD /d 3 /f >nul
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v DisableVoice /t REG_DWORD /d 1 /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement" /v ScoobeSystemSettingEnabled /t REG_DWORD /d 0 /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-310093Enabled /t REG_DWORD /d 0 /f >nul
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-353694Enabled /t REG_DWORD /d 0 /f >nul
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f >nul
+
 echo.
-echo !m_done!
-pause
-goto menu
+echo !m_user_done!
+echo !m_restart_msg!
+timeout /t 5
+shutdown /r /t 0
 
 :bypass
 cls
@@ -142,7 +152,7 @@ echo [ !m_working! ]
 echo.
 set /p uname="!m_user_name!"
 set /p upass="!m_user_pass!"
-net user "%uname%" %upass% /add
+net user "%uname%" "%upass%" /add
 net localgroup administrators "%uname%" /add
 echo.
 echo !m_user_done!
