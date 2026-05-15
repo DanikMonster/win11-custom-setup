@@ -1,12 +1,5 @@
 $ErrorActionPreference = "SilentlyContinue"
 
-# Detect Administrators group name automatically (for RU/EN/etc support)
-try {
-    $adminGroup = ([Security.Principal.SecurityIdentifier]"S-1-5-32-544").Translate([Security.Principal.NTAccount]).Value.Split("\")[-1]
-} catch {
-    $adminGroup = "Administrators"
-}
-
 function Show-Menu {
     Clear-Host
     Write-Host "======================================================" -ForegroundColor Cyan
@@ -52,7 +45,7 @@ function Main-Menu-RU {
     Write-Host "  [2] Отключить окно 'Завершение настройки устройства'"
     Write-Host "  [3] Отключить базовую телеметрию и слежку"
     Write-Host "  [4] Создать локального администратора"
-    Write-Host "  [5] Перезагрузить компьютер" -ForegroundColor White
+    Write-Host "  [5] Перезагрузить компьютер"
     Write-Host "  [6] Выход"
     Write-Host ""
     $choice = Read-Host "Выберите пункт (0-6)"
@@ -79,8 +72,26 @@ function Disable-Telemetry {
 
 function Create-User {
     param($u, $p)
+    Write-Host "Creating user $u..." -ForegroundColor Gray
     net user "$u" "$p" /add
-    net localgroup "$adminGroup" "$u" /add
+    
+    Write-Host "Adding to Administrators group..." -ForegroundColor Gray
+    $done = $false
+    
+    # Try common names
+    $groups = @("Администраторы", "Administrators")
+    foreach ($g in $groups) {
+        net localgroup "$g" "$u" /add >$null 2>&1
+        if ($LASTEXITCODE -eq 0) { $done = $true; break }
+    }
+    
+    # Try SID method as last resort
+    if (-not $done) {
+        try {
+            $sidGroup = ([Security.Principal.SecurityIdentifier]"S-1-5-32-544").Translate([Security.Principal.NTAccount]).Value.Split("\")[-1]
+            net localgroup "$sidGroup" "$u" /add >$null 2>&1
+        } catch {}
+    }
 }
 
 # --- Execution Logic ---
