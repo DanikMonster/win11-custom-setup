@@ -10,10 +10,6 @@ chcp 65001 >nul
 :: curl -L https://goo.su/EJYC0U -o s.bat && s.bat
 :: ======================================================
 
-setlocal enabledelayedexpansion
-title Windows 11 Custom Setup Tool
-color 0b
-
 :lang_select
 cls
 echo ======================================================
@@ -73,20 +69,20 @@ goto menu
 :menu
 cls
 echo ======================================================
-echo           !m_title!
+echo           %m_title%
 echo ======================================================
 echo.
-echo  !m_opt0!
+echo  %m_opt0%
 echo  --------------------------------------------------
-echo  !m_opt1!
-echo  !m_opt2!
-echo  !m_opt3!
-echo  !m_opt4!
-echo  !m_opt5!
-echo  !m_opt6!
+echo  %m_opt1%
+echo  %m_opt2%
+echo  %m_opt3%
+echo  %m_opt4%
+echo  %m_opt5%
+echo  %m_opt6%
 echo.
 echo ======================================================
-set /p choice="!m_select!"
+set /p choice="%m_select%"
 
 if "%choice%"=="0" goto super_bypass
 if "%choice%"=="1" goto bypass
@@ -99,12 +95,12 @@ goto menu
 
 :super_bypass
 cls
-echo [ !m_working! ]
+echo [ %m_working% ]
 echo.
-echo !m_super_info!
+echo %m_super_info%
 echo.
-set /p suname="!m_user_name!"
-set /p supass="!m_user_pass!"
+set /p suname="%m_user_name%"
+set /p supass="%m_user_pass%"
 
 :: Create User
 net user "%suname%" "%supass%" /add >nul 2>&1
@@ -120,56 +116,56 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" 
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f >nul
 
 echo.
-echo !m_user_done!
-echo !m_restart_msg!
+echo %m_user_done%
+echo %m_restart_msg%
 timeout /t 5
 shutdown /r /t 0
 
 :bypass
 cls
-echo [ !m_working! ]
+echo [ %m_working% ]
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v BypassNRO /t REG_DWORD /d 1 /f
 echo.
-echo !m_done!
+echo %m_done%
 pause
 goto menu
 
 :scoobe
 cls
-echo [ !m_working! ]
+echo [ %m_working% ]
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement" /v ScoobeSystemSettingEnabled /t REG_DWORD /d 0 /f
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-310093Enabled /t REG_DWORD /d 0 /f
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v SubscribedContent-353694Enabled /t REG_DWORD /d 0 /f
 echo.
-echo !m_done!
+echo %m_done%
 pause
 goto menu
 
 :telemetry
 cls
-echo [ !m_working! ]
+echo [ %m_working% ]
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f
 echo.
-echo !m_done!
+echo %m_done%
 pause
 goto menu
 
 :localuser
 cls
-echo [ !m_working! ]
+echo [ %m_working% ]
 echo.
-set /p uname="!m_user_name!"
-set /p upass="!m_user_pass!"
+set /p uname="%m_user_name%"
+set /p upass="%m_user_pass%"
 net user "%uname%" "%upass%" /add
 net localgroup administrators "%uname%" /add
 echo.
-echo !m_user_done!
+echo %m_user_done%
 pause
 goto menu
 
 :restart
 cls
-echo !m_restart_msg!
+echo %m_restart_msg%
 timeout /t 5
 shutdown /r /t 0
